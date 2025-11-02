@@ -1,0 +1,7 @@
+__pycache__/
+*.csv
+*.pkl
+*.ipynb_checkpoints
+.git
+.gitignore
+data/

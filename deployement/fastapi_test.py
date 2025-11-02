@@ -4,12 +4,16 @@ import pandas as pd
 import joblib
 import numpy as np
 from typing import List
+import os
+
 # load all varaible to use 
+# get the directory of the current file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-model = joblib.load('house_price_model.pkl')
-scaler = joblib.load('scaler.pkl')
-features_columns = joblib.load('features_columns.pkl')
-
+# load files using absolute paths
+model = joblib.load(os.path.join(BASE_DIR, 'house_price_model.pkl'))
+scaler = joblib.load(os.path.join(BASE_DIR, 'scaler.pkl'))
+features_columns = joblib.load(os.path.join(BASE_DIR, 'features_columns.pkl'))
 # Define Base Model
 class HouseFeatures(BaseModel):
     yearConstructed:float
