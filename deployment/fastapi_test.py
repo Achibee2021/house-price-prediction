@@ -28,10 +28,13 @@ class HouseFeatures(BaseModel):
     latitude:float	
     longitude:float
     age_of_house:int
-    price_per_m2:float
 
 
 app = FastAPI()
+
+@app.get("/")
+def health_check():
+    return {"status": "API running"}
 
 def clean_new_data(df):
 
@@ -39,32 +42,34 @@ def clean_new_data(df):
     df = df[features_columns].copy()
 
     # scale numeric columns
-    column_to_scale = ['yearConstructed', 'noRooms','livingSpace','latitude', 'longitude', 'price_per_m2','age_of_house'] 
+    column_to_scale = ['yearConstructed', 'noRooms','livingSpace','latitude', 'longitude','age_of_house'] 
     df[column_to_scale] = scaler.transform(df[column_to_scale])
     return df
 
 
 # Post for single prediction
 @app.post("/predict")
-def prediction(features:HouseFeatures):
+def predict(features:HouseFeatures):
     
 
     df = pd.DataFrame([features.dict()])
 
     x = clean_new_data(df)
-    y_pred = model.predict(x)
-    return ({'predict_rent': float(y_pred[0])})
+
+    y_pred = model.predict(x)[0]
+
+    return {'predict_rent': float(y_pred)}
 
 # Post for batch Predictions
 @app.post("/predict_batch")
-def prediction(features:List[HouseFeatures]):
-    dic = {}
-    for feature in features:
+def prediction_batch(features:List[HouseFeatures]):
+    data = [feature.dic() for feature in features]
 
-        df = pd.DataFrame([feature.dict()])
+    df = pd.DataFrame(data)
 
-        x = clean_new_data(df)
-        y_pred = model.predict(x)
-        res = float(y_pred[0])
-        dic.setdefault('predicted_rent', []).append(res)
-    return dic
+    x = clean_new_data(df)
+
+    predictions = model.predict(x)
+
+    return {"predicted_rent": predictions.tolist()}
+
