@@ -1,24 +1,23 @@
-# House Price Prediction
+# House Price Prediction & Investment Simulator
 
-This Project predicts house rental prices in Germany using three major models **RandomForest**, **Catboost**, and **XGBoost**- regressor.
+An Interactive Real Estate Analytics tool built with **streamlit** and **Machine Learning**. This app predicts montly rental prices n Germany and allows users to simulate how property improvements (like adding a balcony or gatden ) affect market value over time.
 It includes the **FastAPI Application** that allows both single and batch predictions based on house features.
 
-## Folder Structure
+## Key Features
 
-HousePricePrediction/
-data/
-immo_data.csv original data
-immo_data_with_lat_lon.csv Datasets with latitude and longitude/
-deployement/
-fastapi_test.py main datei
-features_columns.pkl
-house_price_model.pkl
-scaler.pkl
-notebooks/
-housepricepredictiveCleaning.ipynb
-housepricepredictionanalyse.ipynb
-requirements.txt python dependencies
-README:md projet description
+**Map-Based Selection:** Integrated `folium` map with reverse-geocoding. Click anywhere to instantly fect coordinates and address details.
+**Scenario Simulato:** A "What-If" engine that allows you to toggle property fetures (Lift, Garden, Kitchen) to see live updates on price and future trends.
+**Explainable AI (SHAP):** Transparency is key. We SHAP waterfall plots to show exactly which features (Location, Age, Space) are driving the specific price for each property.
+**Time-Series Trend Analytics:** Visualizes how the rent of the selected property is projected to evolve as the building ages.
+**Persistent State Managment:** Optimized with Streanlit Session State to ensure a smooth, lag-free user experience during complex simulations.
+
+## Technology Stack
+
+**Frontend:** Streamlit, Folium
+**Data Science:** Pandas, Numpy, Scikit-Learn
+**Explainabiliy:** SHAP (Shapley Additive exPlanations)
+**Geospatial:** Goepy (ArcGIS API)
+**Deployment:** Docker, Render
 
 ## Installation
 
@@ -103,3 +102,7 @@ http://127.0.0.1:8000
    "price_per_m2": 18.5
    }
    ]
+
+# Run the App
+
+streamlit run app/app.py
